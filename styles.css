@@ -1,0 +1,410 @@
+/* Molecular Intelligence Institute — single-page editorial scroll
+   Newsreader + IBM Plex Sans + JetBrains Mono. Numbered sections, border
+   rules over cards, square corners. Same editorial system as BII, green. */
+
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=IBM+Plex+Sans:wght@400&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --paper:    #ffffff;
+  --ink:      #1A1A1A;
+  --ink-soft: #55585C;
+  --muted:    #70757C;            /* darkened from #8A8F94 for AA contrast */
+  --brand:    #1F6E43;            /* MII green */
+  --deep:     #14432A;            /* dark section ground + link hover */
+  --mint:     #8FC7A6;            /* accents on the dark ground */
+  --rule:     rgba(26,26,26,.12);
+
+  --serif: "Newsreader", "Times New Roman", Georgia, serif;
+  --sans:  "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, monospace;
+
+  --gutter: clamp(24px, 5vw, 56px);
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+::selection { background: var(--brand); color: #fff; }
+
+/* Shared mono label — nav, kickers, section subs, fine print. */
+.kicker, .ssub, .col-kicker, .lnum, .wlabel, .glabel,
+.flabel, .fineprint, .copy, .lbl, .datestamp {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+
+/* ————————— Sticky nav ————————— */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 var(--gutter);
+  min-height: 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; color: var(--brand); }
+.nav-brand svg { flex: none; }
+.nav-brand .name {
+  font-family: var(--mono); font-weight: 500; font-size: 12px;
+  letter-spacing: .18em; text-transform: uppercase;
+  line-height: 1.3; color: var(--ink);
+}
+.nav-links { display: flex; align-items: center; gap: 30px; }
+.nav-links a {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.nav-links a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+.nav-links .cta {
+  font-weight: 500; color: #fff; background: var(--ink);
+  padding: 9px 16px; border-bottom: 0;
+  transition: background .2s;
+}
+.nav-links .cta:hover { background: var(--brand); color: #fff; }
+@media (max-width: 760px) {
+  .nav-links { gap: 18px; }
+  .nav-links a:not(.cta) { display: none; }
+}
+
+/* ————————— Section shell —————————
+   Sections span full width; .wrap holds the 1200px container with the
+   gutter, so nav, sections, and footer share the same left/right edges. */
+section { border-bottom: 1px solid var(--rule); }
+.wrap {
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding: clamp(56px, 9vw, 88px) var(--gutter) clamp(64px, 10vw, 96px);
+}
+
+/* ————————— Numbered section header —————————
+   80px numeral | title | mono sub, over a 2px ink rule. */
+.section-head {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: end; gap: 24px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 18px;
+}
+.snum {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(38px, 5vw, 56px); line-height: .9;
+  color: var(--brand);
+}
+.section-head h2 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 42px);
+  letter-spacing: -.01em; line-height: 1.1;
+  color: var(--ink);
+}
+.ssub { font-size: 12px; letter-spacing: .18em; color: var(--muted); padding-bottom: 8px; }
+@media (max-width: 760px) {
+  .section-head { grid-template-columns: 56px 1fr; gap: 16px; padding-bottom: 14px; }
+  .ssub { grid-column: 1 / -1; padding-bottom: 0; }
+}
+
+/* ————————— 01 — Hero ————————— */
+.hero .wrap {
+  position: relative; overflow: hidden;
+  padding-top: clamp(64px, 10vw, 96px);
+  padding-bottom: clamp(72px, 11vw, 104px);
+}
+.hero-motif {
+  position: absolute; top: 40px; right: -80px;
+  width: 520px; height: 520px;
+  color: var(--brand); opacity: .10;
+  pointer-events: none;
+}
+@media (max-width: 980px) { .hero-motif { display: none; } }
+/* Lift the copy above the watermark — but not the watermark itself. */
+.hero > .wrap > *:not(.hero-motif) { position: relative; }
+
+.kicker { font-size: 12px; letter-spacing: .2em; font-weight: 500; color: var(--brand); }
+
+.hero h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(44px, 6.4vw, 88px);
+  line-height: 1.02; letter-spacing: -.02em;
+  color: var(--ink);
+  max-width: 18ch; margin-top: 26px;
+  text-wrap: balance;
+}
+.hero h1 em { font-style: italic; color: var(--brand); }
+
+.lede {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.55; color: var(--ink-soft);
+  max-width: 56ch; margin-top: 34px;
+  text-wrap: pretty;
+}
+.lede em { font-style: italic; color: var(--brand); }
+.lede em.ink { color: var(--ink); }
+
+.cta-row {
+  margin-top: 44px;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 14px 28px;
+}
+.btn {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: var(--ink);
+  padding: 14px 22px;
+  transition: background .2s;
+}
+.btn:hover { background: var(--brand); }
+.cta-row .quiet {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(26,26,26,.3);
+  padding-bottom: 3px;
+  transition: color .2s, border-color .2s;
+}
+.cta-row .quiet:hover { color: var(--brand); border-color: var(--brand); }
+.fineprint { font-size: 12px; letter-spacing: .14em; color: var(--muted); }
+
+/* ————————— 02 — Two-column prose —————————
+   Mono kicker left, serif body right — the editorial two-column prose. */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 56px; margin-top: 48px;
+}
+.col-kicker { font-size: 12px; letter-spacing: .14em; color: var(--brand); line-height: 1.7; }
+@media (max-width: 860px) {
+  .two-col { grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+  /* Keep the authored line breaks — hiding a <br> drops the break without
+     substituting a space, fusing words together. */
+}
+.prose-lead {
+  font-family: var(--serif); font-size: clamp(19px, 2vw, 22px);
+  line-height: 1.55; color: var(--ink);
+  text-wrap: pretty;
+}
+.prose {
+  font-family: var(--sans); font-size: 16px; line-height: 1.7;
+  color: var(--ink-soft); max-width: 60ch; margin-top: 22px;
+}
+.prose em { font-style: italic; color: var(--brand); }
+
+/* ————————— 03 — What we do —————————
+   Three panels divided by 1px rules — the gap IS the border. */
+.layers {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--rule);
+  margin-top: 48px;
+}
+@media (max-width: 860px) { .layers { grid-template-columns: 1fr; margin-top: 36px; } }
+.layer { background: var(--paper); padding: 36px 32px 40px; }
+@media (max-width: 860px) { .layer { padding: 28px 0 32px; } }
+.lnum { font-size: 12px; letter-spacing: .16em; color: var(--brand); }
+.layer h3 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 27px; line-height: 1.1; letter-spacing: -.01em;
+  color: var(--ink); margin-top: 16px;
+  text-wrap: balance;
+}
+.layer p {
+  font-size: 15px; line-height: 1.65;
+  color: var(--ink-soft); margin-top: 16px;
+}
+
+/* ————————— 04 — Dark ground ————————— */
+.dark { background: var(--deep); border-bottom-color: transparent; }
+.dark .wrap { padding-top: clamp(64px, 10vw, 92px); padding-bottom: clamp(64px, 10vw, 92px); }
+.dark .section-head { border-bottom-color: rgba(255,255,255,.35); }
+.dark .snum { color: var(--mint); }
+.dark .section-head h2 { color: #fff; }
+.dark .ssub { color: var(--mint); }
+
+.datestamp {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(42px, 6.5vw, 82px);
+  line-height: 1; letter-spacing: -.02em;
+  text-transform: none;                     /* overrides the mono-label rule */
+  color: #fff; margin-top: 56px;
+}
+.founder {
+  margin-top: 56px; padding-top: 36px;
+  border-top: 1px dotted rgba(255,255,255,.28);
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 40px; align-items: start;
+  max-width: 760px;
+}
+@media (max-width: 720px) { .founder { grid-template-columns: 1fr; gap: 28px; } }
+.founder-portrait {
+  width: 180px; height: 180px;
+  border-radius: 50%; object-fit: cover;
+  background: rgba(255,255,255,.08);
+}
+.founder-body { border-left: 2px solid var(--mint); padding: 2px 0 2px 28px; }
+@media (max-width: 720px) { .founder-body { padding-left: 20px; } }
+.flabel { font-size: 12px; letter-spacing: .18em; color: var(--mint); }
+.fname {
+  font-family: var(--serif); font-size: 32px; line-height: 1.1;
+  letter-spacing: -.01em; color: #fff; margin-top: 12px;
+}
+.founder-body p {
+  font-size: 16px; line-height: 1.7;
+  color: rgba(255,255,255,.78);
+  margin-top: 18px; max-width: 52ch;
+}
+
+/* ————————— 05 — Work with us ————————— */
+.ways {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 40px; margin-top: 48px;
+}
+@media (max-width: 860px) { .ways { grid-template-columns: 1fr; gap: 32px; margin-top: 36px; } }
+.way { display: flex; flex-direction: column; }
+.wlabel { font-size: 12px; letter-spacing: .16em; color: var(--brand); }
+.way p {
+  font-size: 15px; line-height: 1.65;
+  color: var(--ink-soft); margin: 16px 0 22px; flex: 1;
+}
+.wlink {
+  align-self: flex-start;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .1em;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(26,26,26,.3);
+  padding-bottom: 3px;
+  transition: color .2s, border-color .2s;
+}
+.wlink:hover { color: var(--brand); border-color: var(--brand); }
+
+.general {
+  margin-top: 56px; padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 12px 32px;
+}
+.glabel { font-size: 12px; letter-spacing: .16em; color: var(--muted); }
+.general a {
+  font-family: var(--serif); font-size: clamp(20px, 2.4vw, 24px);
+  color: var(--ink); transition: color .2s;
+}
+.general a:hover { color: var(--brand); }
+
+/* ————————— Footer ————————— */
+footer { border-top: 2px solid var(--ink); background: var(--paper); }
+.foot-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px var(--gutter) 56px;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+}
+@media (max-width: 860px) { .foot-inner { grid-template-columns: 1fr; gap: 32px; } }
+.foot-mark { display: flex; align-items: center; gap: 12px; color: var(--brand); }
+.foot-mark svg { flex: none; }
+.foot-mark .name { font-family: var(--serif); font-size: 19px; color: var(--ink); }
+.foot-brand .blurb {
+  font-size: 13px; line-height: 1.6; color: var(--muted);
+  margin-top: 16px; max-width: 42ch;
+}
+.copy { font-size: 12px; letter-spacing: .14em; color: var(--muted); margin-top: 22px; }
+.lbl { font-size: 12px; letter-spacing: .16em; color: var(--muted); margin-bottom: 16px; }
+.foot-nav { display: flex; flex-direction: column; gap: 11px; }
+.foot-nav .lbl { margin-bottom: 5px; }
+.foot-nav a {
+  font-size: 14px; color: var(--ink); align-self: flex-start;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.foot-nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+.foot-related p { font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 12px; }
+
+/* ————————— Reveal on load —————————
+   8px rise + fade, staggered. Quiet motion only — no bounce, no spring. */
+@keyframes miiUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal   { animation: miiUp .8s ease both; }
+.reveal-2 { animation-duration: .9s;  animation-delay: .06s; }
+.reveal-3 { animation-duration: 1s;   animation-delay: .16s; }
+.reveal-4 { animation-duration: 1.05s; animation-delay: .24s; }
+
+/* ————————— Reduced motion ————————— */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* ————————— Additions (content revision, Oct 2026) ————————— */
+
+/* Skip link + visible focus */
+.skip-link {
+  position: absolute; left: var(--gutter); top: -100px; z-index: 100;
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: var(--ink); padding: 12px 18px;
+}
+.skip-link:focus { top: 12px; }
+a:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+.dark a:focus-visible { outline-color: var(--mint); }
+
+/* Kicker rendered as a heading keeps the mono label look */
+h3.col-kicker, h3.wlabel { font-weight: 400; }
+
+/* 02 — second two-column row inside the same section */
+.two-col + .two-col { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--rule); }
+@media (max-width: 860px) { .two-col + .two-col { margin-top: 40px; padding-top: 36px; } }
+
+/* 04 — How we work: statement + four commitments on the dark ground */
+.dark .prose-lead { color: #fff; max-width: 52ch; margin-top: 28px; }
+.commitments {
+  margin-top: 56px; padding-top: 44px;
+  border-top: 1px dotted rgba(255,255,255,.28);
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 44px 56px;
+}
+@media (max-width: 860px) { .commitments { grid-template-columns: 1fr; gap: 36px; } }
+.commitment h3 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 30px); line-height: 1.15;
+  letter-spacing: -.01em; color: #fff;
+}
+.commitment p {
+  font-size: 16px; line-height: 1.7;
+  color: rgba(255,255,255,.78);
+  margin-top: 14px; max-width: 52ch;
+}
+
+/* 05 — four ways in, 2×2 */
+.ways-4 { grid-template-columns: repeat(2, 1fr); gap: 48px 56px; }
+@media (max-width: 860px) { .ways-4 { grid-template-columns: 1fr; gap: 32px; } }
+.ways-4 .way p { max-width: 52ch; }
+
+/* 06 — About: founder block on paper */
+.founder-light { border-top-color: rgba(26,26,26,.28); }
+.founder-light .founder-portrait { background: var(--rule); }
+.founder-light .founder-body { border-left-color: var(--brand); }
+.founder-light .flabel { color: var(--brand); }
+.founder-light .fname { color: var(--ink); }
+.founder-light .founder-body p { color: var(--ink-soft); }
+
+/* Unfinished copy — must not ship */
+.placeholder {
+  font-family: var(--mono); font-size: 13px; letter-spacing: .04em;
+  color: var(--brand); border: 1px dashed var(--brand);
+  padding: 1px 6px;
+}
